@@ -1,0 +1,22 @@
+name: Set Team Permissions
+on: [workflow_dispatch]
+
+jobs:
+  test-affirmative:
+    runs-on: ubuntu-latest
+    name: A test job to set variables on two repos
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Update permissions NON kf-customer-private
+        uses: ./
+        id: non-private
+        with:
+          repo-name: 'test-orch-mh' # Exp: 'pass no error'
+      - name: Update permissions kf-customer-private
+        uses: ./
+        id: private
+        with:
+          repo-name: 'test-cagateway-mh' # Exp: 'pass with error'
+
+

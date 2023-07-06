@@ -1,0 +1,18 @@
+{
+  "name": "action-gh-teams-update",
+  "version": "0.0.1",
+  "description": "Update Teams settings on repository",
+  "main": "main.js",
+  "scripts": {
+    "build": "ncc build main.js",
+    "precommit": "npm run build && git add dist/"
+  },
+  "author": {
+    "name": "fiddlermikey"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@vercel/ncc": "^0.36.1",
+    "fs": "^0.0.1-security"
+  }
+}
