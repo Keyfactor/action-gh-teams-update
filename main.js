@@ -53,33 +53,30 @@ function permissionForTeam(team) {
 
 async function updateTeams(owner, repo) {
   try {
-    console.log(`orgName: ${orgName} - repo: ${repo}`);
-    console.log(teams);
-    getRepoTopics(orgName, repoName)
-      .then((repoTopics) => {
-        console.log(repoTopics);
-        if (!repoTopics.includes('kf-customer-private')) {
-          teams.forEach(element => {
-            console.log(element[0] + ' : ' + element[1])
-            const team_slug = element[0];
-            const permission = element[1];
-            const org = owner;
-            const response = github.request("PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}", {
-              org,
-              team_slug,
-              owner,
-              repo,
-              permission
-            });
-          });
-        } else {
-          console.log('Skipping kf-customer-private repo: ' + repoName);
-        }
-      })
-      .catch((err) => console.error(err));
+    const repoTopics = await getRepoTopics(orgName, repoName)
+    console.log(`Repo name: ${repoName}: [${repoTopics}]`);
+    if (!repoTopics.includes('kf-customer-private')) {
+      teams.forEach(element => {
+        console.log(element[0] + ' : ' + element[1])
+        const team_slug = element[0];
+        const permission = element[1];
+        const org = owner;
+        //       console.log(`Repo: ${repoName}\nTeam: ${team_slug}\nPermission: ${permission}`)
+        //  const response = github.request("PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}", {
+        //    org,
+        //    team_slug,
+        //    owner,
+        //    repo,
+        //    permission
+        //  });
+      });
+    } else {
+      console.log('Skipping kf-customer-private repo: ' + repoName);
+    }
   }
   catch (error) {
-    core.setFailed(error.message);
+    console.error('Error occurred:', error);
   }
 }
+
 updateTeams(orgName, repoName)
