@@ -9548,6 +9548,8 @@ function permissionForTeam(team) {
 
 async function updateTeams(owner, repo) {
   try {
+    console.log(`orgName: ${orgName} - repo: ${repo}`);
+    console.log(teams);
     getRepoTopics(orgName, repoName)
       .then((repoTopics) => {
         console.log(repoTopics);
