@@ -9547,9 +9547,19 @@ function permissionForTeam(team) {
   return permission;
 }
 
+async function getTopicsForRepo(owner, repo) {
+  console.log(repoName)
+  try {
+    topics = await getRepoTopics(owner, repo)
+    console.log(topics)
+    return topics
+  } catch (error) {
+    console.error('Error occurred:', error);
+  }
+}
 async function updateTeams(owner, repo) {
   try {
-    const repoTopics = await getRepoTopics(orgName, repoName)
+    const repoTopics = await getTopicsForRepo(orgName, repoName)
     console.log(`Repo name: ${repoName}: [${repoTopics}]`);
     if (!repoTopics.includes('kf-customer-private')) {
       teams.forEach(element => {
