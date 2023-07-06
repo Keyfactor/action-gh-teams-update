@@ -25,6 +25,7 @@ async function getRepoTopics(owner, repo) {
       repo
     });
     const repoTopics = response.names;
+    console.log(`repoTopics: ${repoTopics}`);
     return repoTopics;
   } catch (error) {
     core.setFailed(error.message);
