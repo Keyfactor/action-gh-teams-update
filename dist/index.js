@@ -9542,6 +9542,7 @@ async function updateRepoTeams(owner, repo) {
     });
     const { topics } = response;
     outText = JSON.stringify(response, '', 2);
+    console.log(`outText: ${outText}`);
     topics.indexOf('kf-customer-private') > 0 ? console.log('PRIVATE') : updateTeamPermissions(owner, repo);
   } catch (error) {
     core.setFailed(error.message);
