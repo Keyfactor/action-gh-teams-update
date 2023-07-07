@@ -9542,7 +9542,7 @@ async function updateRepoTeams(owner, repo) {
     });
     const { topics } = response;
     outText = JSON.stringify(response, '', 2);
-    topics.indexOf('kf-customer-private') > 0 ? console.log('PRIVATE') : await updateTeamPermissions(owner, repo);
+    topics.indexOf('kf-customer-private') > 0 ? console.log('PRIVATE') : updateTeamPermissions(owner, repo);
   } catch (error) {
     core.setFailed(error.message);
   }
