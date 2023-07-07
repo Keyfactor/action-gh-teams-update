@@ -9,13 +9,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Update permissions NON kf-customer-private
-        uses: ./
         id: non-private
+        uses: ./
         with:
           repo-name: 'test-orch-mh' # Exp: 'pass no error'
       - name: Update permissions kf-customer-private
-        uses: ./
         id: private
+        uses: ./
         with:
           repo-name: 'test-cagateway-mh' # Exp: 'pass with error'
 
