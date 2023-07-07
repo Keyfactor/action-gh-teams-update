@@ -4,19 +4,14 @@ on: [workflow_dispatch]
 jobs:
   test-affirmative:
     runs-on: ubuntu-latest
-    name: A test job to set variables on two repos
+    name: A job to test updating permissions on test-orch-mh
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Update permissions NON kf-customer-private
-        id: non-private
+      - name: Update permissions 
+        id: run-test
         uses: ./
         with:
-          repo-name: 'test-orch-mh' # Exp: 'pass no error'
-      - name: Update permissions kf-customer-private
-        id: private
-        uses: ./
-        with:
-          repo-name: 'test-cagateway-mh' # Exp: 'pass with error'
+          repo-name: 'test-orch-mh'
 
 

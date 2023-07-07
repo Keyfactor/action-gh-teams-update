@@ -9502,6 +9502,7 @@ const TOKEN = process.env.GITHUB_TOKEN;
 const orgName = 'keyfactor'
 const repoName = core.getInput('repo-name') || process.env.REPONAME;
 
+// TODO: Replace this with an input variable
 const teams = [ // Using array of arrays because team names contain hyphen character, illegal json
   ['field-software-engineers', 'push'],
   ['integration-engineers', 'push'],
@@ -9534,22 +9535,7 @@ async function updateTeamPermissions(owner, repo) {
   }
 }
 
-async function updateRepoTeams(owner, repo) {
-  try {
-    const { data: response } = await github.rest.repos.get({
-      owner,
-      repo
-    });
-    const { topics } = response;
-    outText = JSON.stringify(response, '', 2);
-    console.log(`outText: ${outText}`);
-    topics.indexOf('kf-customer-private') > 0 ? console.log('PRIVATE') : updateTeamPermissions(owner, repo);
-  } catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-updateRepoTeams(orgName, repoName);
+updateTeamPermissions(orgName, repoName);
 })();
 
 module.exports = __webpack_exports__;
