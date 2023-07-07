@@ -9509,83 +9509,46 @@ const teams = [ // Using array of arrays because team names contain hyphen chara
   ['release_builders', 'admin']
 ];
 
-
 const github = new Octokit({
   auth: TOKEN,
 });
 
-async function getRepoTopics(owner, repo) {
+async function updateTeamPermissions(owner, repo) {
   try {
-    const { data: response } = await github.request("GET /repos/{owner}/{repo}/topics", {
-      owner,
-      repo
-    });
-    const repoTopics = response.names;
-    console.log(`repoTopics: ${repoTopics}`);
-    return repoTopics;
-  } catch (error) {
-    core.setFailed(error.message);
-  }
-}
-function permissionForTeam(team) {
-  switch (team) {
-    case 'integration-engineers':
-      permission = 'push'
-      break;
-    case 'field-software-engineers':
-      permission = 'push'
-      break;
-    case 'private-access':
-      permission = 'pull'
-      break;
-    case 'release_builders':
-      permission = 'admin'
-      break;
-    default:
-      console.log(`Unknwon team name: ` + team);
-  }
-  return permission;
-}
-
-async function getTopicsForRepo(owner, repo) {
-  console.log(repoName)
-  try {
-    topics = await getRepoTopics(owner, repo)
-    console.log(topics)
-    return topics
-  } catch (error) {
-    console.error('Error occurred:', error);
-  }
-}
-async function updateTeams(owner, repo) {
-  try {
-    const repoTopics = await getTopicsForRepo(orgName, repoName)
-    console.log(`Repo name: ${repoName}: [${repoTopics}]`);
-    if (!repoTopics.includes('kf-customer-private')) {
-      teams.forEach(element => {
-        console.log(element[0] + ' : ' + element[1])
-        const team_slug = element[0];
-        const permission = element[1];
-        const org = owner;
-        //       console.log(`Repo: ${repoName}\nTeam: ${team_slug}\nPermission: ${permission}`)
-        //  const response = github.request("PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}", {
-        //    org,
-        //    team_slug,
-        //    owner,
-        //    repo,
-        //    permission
-        //  });
+    teams.forEach(element => {
+      console.log(element[0] + ' : ' + element[1])
+      const team_slug = element[0];
+      const permission = element[1];
+      const org = owner;
+      const response = github.request("PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}", {
+        org,
+        team_slug,
+        owner,
+        repo,
+        permission
       });
-    } else {
-      console.log('Skipping kf-customer-private repo: ' + repoName);
-    }
+    });
   }
   catch (error) {
     console.error('Error occurred:', error);
   }
 }
 
-updateTeams(orgName, repoName)
+async function updateRepoTeams(owner, repo) {
+  try {
+    const { data: response } = await github.rest.repos.get({
+      owner,
+      repo
+    });
+    const { topics } = response;
+    outText = JSON.stringify(response, '', 2);
+    topics.indexOf('kf-customer-private') > 0 ? console.log('PRIVATE') : await updateTeamPermissions(owner, repo);
+  } catch (error) {
+    core.setFailed(error.message);
+  }
+}
+
+updateRepoTeams(orgName, repoName);
 })();
 
 module.exports = __webpack_exports__;
