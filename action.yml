@@ -1,12 +1,10 @@
 name: 'Set Team Permissions'
 description: 'Set team permissions'
+
 inputs:
-  repo-name:  
-    description: 'Repository to set [Required]'
+  token: 
+    description: 'GitHub Token with appropriate permissions'
     required: true
-outputs:
-  debug-text: 
-    description: 'Output written to output property for debugging'
 runs:
   using: 'node16'
   main: 'dist/index.js'

@@ -1,17 +1,17 @@
 name: Set Team Permissions
-on: [workflow_dispatch]
+on: workflow_dispatch 
+
 
 jobs:
   test-affirmative:
     runs-on: ubuntu-latest
-    name: A job to test updating permissions on test-orch-mh
+    name: A job to test updating teams on this repo
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Update permissions 
         id: run-test
         uses: ./
-        with:
-          repo-name: 'test-orch-mh'
+
 
 

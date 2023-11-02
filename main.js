@@ -1,11 +1,11 @@
-const fs = require('fs');
 const core = require('@actions/core');
-const { Octokit } = require("@octokit/rest");
+const { context } = require('@actions/github');
+const { Octokit } = require('@octokit/rest');
 
-const TOKEN = process.env.GITHUB_TOKEN;
-const orgName = 'keyfactor'
-const repoName = core.getInput('repo-name') || process.env.REPONAME;
+const token = core.getInput('token');
 
+const github = new Octokit({ auth: token });
+const { owner, repo } = context.repo;
 // TODO: Replace this with an input variable
 const teams = [ // Using array of arrays because team names contain hyphen character, illegal json
   ['field-software-engineers', 'push'],
@@ -13,10 +13,6 @@ const teams = [ // Using array of arrays because team names contain hyphen chara
   ['private-access', 'pull'],
   ['release_builders', 'admin']
 ];
-
-const github = new Octokit({
-  auth: TOKEN,
-});
 
 async function updateTeamPermissions(owner, repo) {
   try {
