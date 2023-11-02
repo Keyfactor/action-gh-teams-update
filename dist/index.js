@@ -13087,7 +13087,7 @@ async function updateTeamPermissions(org, repoName) {
   }
 }
 
-updateTeamPermissions(owner, repoName);
+updateTeamPermissions(owner, repo);
 })();
 
 module.exports = __webpack_exports__;

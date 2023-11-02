@@ -34,4 +34,4 @@ async function updateTeamPermissions(org, repoName) {
   }
 }
 
-updateTeamPermissions(owner, repoName);
+updateTeamPermissions(owner, repo);
